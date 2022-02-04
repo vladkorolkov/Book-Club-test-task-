@@ -7,15 +7,17 @@ namespace BookClub.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly BooksContext Db;
+        public HomeController(ILogger<HomeController> logger, BooksContext db)
         {
             _logger = logger;
+            Db = db;
         }
 
-        public IActionResult Index()
+        public List<string> Index()
         {
-            return View();
+            var q = Db.Books.Take(3).Select(x=>x.Name).ToList();
+            return q;
         }
 
         public IActionResult Privacy()

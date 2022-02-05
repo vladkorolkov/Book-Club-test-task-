@@ -1,5 +1,20 @@
 ﻿@model List<BookClub.Models.Book>
-
+ <style>
+   h3 {
+    font-size:larger;
+   }
+   div.Mydiv {
+       margin-top:50px
+   }
+  </style>
+  
+<div>
+        <h3>For mark book as read please enter book Id:</h3>
+          <form method="post" asp-controller="Books" asp-action="MarkAsRead">             
+                <input type="text" name="id">           
+              </form>
+    </div>
+<div class="Mydiv">
 <table cellpadding="10">
     <tr>
         <th>Id</th>
@@ -17,10 +32,4 @@
     }
 
 </table>
-
-<div>
-        For mark as read please enter book Id:
-          <form method="post" asp-controller="Books" asp-action="MarkAsRead">             
-                <input type="text" name="id">           
-              </form>
-    </div>
+</div>

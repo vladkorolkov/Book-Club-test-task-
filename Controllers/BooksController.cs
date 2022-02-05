@@ -1,8 +1,10 @@
 ﻿using BookClub.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+
 namespace BookClub.Controllers
 {
+    [Authorize]
     public class BooksController : Controller
     {
         private const string sessionKey = "userbooks";
@@ -23,7 +25,7 @@ namespace BookClub.Controllers
         {
             var query = Db.Books.Where(i => i.BookId == id).Select(n=>n.Name).First();
             HttpContext.Session.SetString(sessionKey, query);
-            return View();
+            return RedirectToAction("MyReadBooks");
         }
 
         [HttpGet]

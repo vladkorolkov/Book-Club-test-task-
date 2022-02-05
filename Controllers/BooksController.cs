@@ -27,10 +27,11 @@ namespace BookClub.Controllers
         }
 
         [HttpGet]
-        public string MyReadBooks()
+        public IActionResult MyReadBooks()
         {
             var mybooks = HttpContext.Session.GetString(sessionKey);
-            return mybooks;
+            ViewData["MyBook"] = mybooks;
+            return View();
         }
 
     }

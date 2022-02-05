@@ -5,7 +5,7 @@ namespace BookClub.Controllers
 {
     public class BooksController : Controller
     {
-        private static List<Book> ReadBooks;
+        private const string sessionKey = "userbooks";
         BooksContext Db;
         public BooksController(BooksContext db)
         {
@@ -21,10 +21,16 @@ namespace BookClub.Controllers
         [HttpPost]
         public IActionResult MarkAsRead(int id)
         {
-            
-            var query = Db.Books.Where(i => i.BookId == id).First();
-            ReadBooks.Add(query);
-            return View("ReadBooks", ReadBooks);
+            var query = Db.Books.Where(i => i.BookId == id).Select(n=>n.Name).First();
+            HttpContext.Session.SetString(sessionKey, query);
+            return View();
+        }
+
+        [HttpGet]
+        public string MyReadBooks()
+        {
+            var mybooks = HttpContext.Session.GetString(sessionKey);
+            return mybooks;
         }
 
     }

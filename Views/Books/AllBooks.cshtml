@@ -1,35 +1,29 @@
 ﻿@model List<BookClub.Models.Book>
- <style>
-   h3 {
-    font-size:larger;
-   }
-   div.Mydiv {
-       margin-top:50px
-   }
-  </style>
-  
+
 <div>
-        <h3>For mark book as read please enter book Id:</h3>
-          <form method="post" asp-controller="Books" asp-action="MarkAsRead">             
-                <input type="text" name="id">           
-              </form>
-    </div>
-<div class="Mydiv">
-<table cellpadding="10">
-    <tr>
-        <th>Id</th>
-        <th>Author</th>
-        <th>Name</th>
-    </tr>
-
-    @foreach (var book in Model)
-    {  
+    <table cellpadding="10">
         <tr>
-            <td width="70">@book.BookId</td>
-            <td>@book.Author</td>
-            <td>@book.Name</td>         
-        </tr>       
-    }
+            <th>Id</th>
+            <th>Author</th>
+            <th>Name</th>
+        </tr>
 
-</table>
-</div>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td width="70">@book.BookId</td>
+                <td>@book.Author</td>
+                <td>@book.Name</td>
+            </tr>
+        }
+
+    </table>
+    <br /><br />
+    <form method="post" asp-controller="Books" asp-action="MarkAsRead">
+    <div class="form-group">
+        <label for="exampleInputEmail1"><strong> To mark book as read please enter book Id and press Enter:</strong></label>
+       
+        <input type="text" name="id" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="id here" >
+        <small id="emailHelp" class="form-text text-muted">You can see book ID at the first left column</small>
+    </div>
+    </form>

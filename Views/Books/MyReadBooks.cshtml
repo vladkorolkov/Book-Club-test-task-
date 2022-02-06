@@ -1,11 +1,27 @@
-﻿
-@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
-<h3>
-    <li>
-       @HttpContextAccessor.HttpContext.Session.GetString("userbooks")
-    </li>
-</h3>
+@ViewBag.ErrorMessage
+ @if (Context.Session.Keys.Any())
+{
+    foreach (var item in Context.Session.Keys)
+    {
+        <li /> @item
+    }
+}
+else
+{
+    ViewBag.NoBooksMessage = "Now you have not any read books";
+}
+<h3>@ViewBag.NoBooksMessage</h3>
+<br />
+<br />
+<form method="post" asp-controller="Books" asp-action="RemoveBook">
+    <div class="form-group">
+        <label for="exampleInputEmail1"><strong>For mark book as read please enter name of the book and press Enter:</strong></label>
+        <input type="text" name="bookName" class="form-control" id="exampleFormControlSelect1" aria-describedby="emailHelp" placeholder="name of the book...">
+        @*<small id="emailHelp" class="form-text text-muted">You can see book ID at the first left column</small>*@
+    </div>
+</form>
 
-   
+

@@ -16,3 +16,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+h3 {
+    font-size: larger;
+}
+
+div.Mydiv {
+    margin-top: 50px
+}

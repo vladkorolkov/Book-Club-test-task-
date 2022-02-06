@@ -9,7 +9,6 @@ namespace BookClub.Controllers
     {
         //для доступа к переменной сесси во вьюшке
         private readonly ISession session;
-        private const string sessionKey = "userbooks";
         public Book readedBook { get; private set; }
 
         BooksContext Db;
@@ -27,16 +26,38 @@ namespace BookClub.Controllers
         [HttpPost]
         public IActionResult MarkAsRead(int id)
         {
-            var query = Db.Books.Where(i => i.BookId == id).Select(n=>n.Name).First();
-            this.session.SetString(sessionKey, query);                    
-            return RedirectToAction("MyReadBooks");
-        }
+            try
+            {
+                var query = Db.Books.Where(i => i.BookId == id).Select(n => n.Name).First();
+                session.SetString(query, query);
+                return RedirectToAction("MyReadBooks");
+            }
 
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Такого id не существует.";
+                return View("MyReadBooks");
+            }
+        }
+        [HttpPost]
+        public IActionResult RemoveBook(string bookName)
+        {
+            try
+            {
+                var query = Db.Books.Where(i => i.Name == bookName).Select(n => n.Name).First();
+                session.Remove(query);
+                return RedirectToAction("MyReadBooks");
+            }
+
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Такого id не существует.";
+                return RedirectToAction("MyReadBooks");
+            }
+        }
         [HttpGet]
         public IActionResult MyReadBooks()
         {
-            //var mybooks = HttpContext.Session.GetString(sessionKey);
-            //ViewData["MyBook"] = mybooks;
             return View();
         }
 

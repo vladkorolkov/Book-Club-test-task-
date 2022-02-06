@@ -7,12 +7,16 @@ namespace BookClub.Controllers
     [Authorize]
     public class BooksController : Controller
     {
+        //для доступа к переменной сесси во вьюшке
+        private readonly ISession session;
         private const string sessionKey = "userbooks";
+        public Book readedBook { get; private set; }
+
         BooksContext Db;
-        public BooksController(BooksContext db)
+        public BooksController(BooksContext db, IHttpContextAccessor httpContextAccessor)
         {
             Db = db;
-           
+            this.session = httpContextAccessor.HttpContext.Session;
         }
         public IActionResult AllBooks()
         {
@@ -24,15 +28,15 @@ namespace BookClub.Controllers
         public IActionResult MarkAsRead(int id)
         {
             var query = Db.Books.Where(i => i.BookId == id).Select(n=>n.Name).First();
-            HttpContext.Session.SetString(sessionKey, query);
+            this.session.SetString(sessionKey, query);                    
             return RedirectToAction("MyReadBooks");
         }
 
         [HttpGet]
         public IActionResult MyReadBooks()
         {
-            var mybooks = HttpContext.Session.GetString(sessionKey);
-            ViewData["MyBook"] = mybooks;
+            //var mybooks = HttpContext.Session.GetString(sessionKey);
+            //ViewData["MyBook"] = mybooks;
             return View();
         }
 
